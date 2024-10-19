@@ -16,7 +16,7 @@ enum VideoCallingTypes: string
             self::DUO => [
                 'name' => "google_duo",
                 'color' => "#1A73E8",
-                'image' => asset("assets/video-calling/gogle_duo.svg"),
+                'image' => asset("assets/video-calling/google_duo.svg"),
             ],
 
             self::TEXT_NOW => [
