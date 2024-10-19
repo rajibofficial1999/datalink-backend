@@ -32,9 +32,11 @@ class GetApiDataController extends Controller
             return response()->json(['subscription_expired' => 'User access token is not valid.', 422]);
         }
 
-        if(!$this->hasSubscription($user)) {
-            return response()->json(['subscription_expired' => 'User subscription has expired.'], 403);
-        }
+        if(!$user->isSuperAdmin){
+			if(!$this->hasSubscription($user)) {
+				return response()->json(['subscription_expired' => 'User subscription has expired.'], 403);
+			}
+		}
 
         return response()->json([
             'site' => $siteTypeDetails ?? null,
