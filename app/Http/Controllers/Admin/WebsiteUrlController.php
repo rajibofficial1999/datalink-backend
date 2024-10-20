@@ -37,9 +37,9 @@ class WebsiteUrlController extends Controller
 
         $domainOwner = $authUser;
 
-        if ($authUser->isUser) {
-            $domainOwner = $authUser->team;
-        }
+        // if ($authUser->isUser) {
+        //     $domainOwner = $authUser->team;
+        // }
 
         return response()->json([
             'websiteUrls' => $domainOwner,
