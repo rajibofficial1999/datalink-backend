@@ -51,8 +51,8 @@ class DomainController extends Controller
         $data = $request->validated();
 
         $name = $data['domain'];
-        if (!Str::startsWith($name, 'www.')) {
-            $name = "www." . $name;
+        if (Str::startsWith($name, 'www.')) {
+            $name = Str::replace('www.', '', $name);
         }
 
         $data['name'] = $name;
@@ -99,8 +99,8 @@ class DomainController extends Controller
         Gate::authorize('update', $domain);
 
         $name = $data['domain'];
-        if (!Str::startsWith($name, 'www.')) {
-            $name = "www." . $name;
+        if (Str::startsWith($name, 'www.')) {
+            $name = Str::replace('www.', '', $name);
         }
 
         $data['name'] = $name;
