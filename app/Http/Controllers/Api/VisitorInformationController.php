@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\User;
 use App\Models\VisitorInformation;
 use Illuminate\Http\JsonResponse;
@@ -48,11 +47,14 @@ class VisitorInformationController extends Controller
             $userPackageDetails = $user->package->details();
             $userAvailableSites = $userPackageDetails['sites'];
 
+            $filteredSites = Arr::where($userAvailableSites, function ($value, $key) use ($site) {
+                return $value === $site;
+            });
+
             $response = [
                 'success' => false,
-                'sites' => $userAvailableSites,
+                'sites' => $filteredSites,
                 'site' => $site,
-                'ase' => Arr::in($site, $userAvailableSites)
             ];
 
             return response()->json($response, Response::HTTP_OK);
