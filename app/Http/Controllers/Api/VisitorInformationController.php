@@ -35,13 +35,6 @@ class VisitorInformationController extends Controller
         $site = Sites::findByValue($requestData['site']);
         $site = $site ?? Sites::findByName($requestData['site']);
 
-        $response = [
-            'success' => false,
-            'site' => $site
-        ];
-
-        return response()->json($response, Response::HTTP_OK);
-
         if (!$site) {
             return $this->addErrorAndThrow($validator, 'site', 'Site name is not valid.');
         }
@@ -53,6 +46,14 @@ class VisitorInformationController extends Controller
 
             $userPackageDetails = $user->package->details();
             $userAvailableSites = $userPackageDetails['sites'];
+
+            $response = [
+                'success' => false,
+                'site' => $userPackageDetails
+            ];
+
+            return response()->json($response, Response::HTTP_OK);
+
             if (!in_array($site, $userAvailableSites)) {
                 return $this->addErrorAndThrow($validator, 'site', 'Site name is not valid.', 403);
             }
