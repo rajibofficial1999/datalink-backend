@@ -37,12 +37,6 @@ class WebsiteUrlController extends Controller
 
         $domainOwner = $authUser->isUser ? $authUser->team : $authUser;
 
-        // return response()->json([
-        //     'websiteUrls' => $authUser->isUser,
-        //     'sites' => Sites::cases(),
-        //     'user' => $site
-        // ], Response::HTTP_OK);
-
         $domainsWithUrls = Domain::query()
             ->when($authUser->isAdmin || $authUser->isUser, function ($query) use ($domainOwner) {
                 return $query->where('is_default', true)->orWhere('user_id', $domainOwner?->id);
@@ -51,6 +45,13 @@ class WebsiteUrlController extends Controller
                 return $query->where('site', $site)->where('category', $category);
             }])
             ->get();
+
+
+        return response()->json([
+            'websiteUrls' => $domainsWithUrls,
+            'sites' => Sites::cases(),
+            'user' => $site
+        ], Response::HTTP_OK);
 
         $websiteUrls = $domainsWithUrls->flatMap(function ($domain) use ($site, $userAvailableSites, $authUser) {
             return $domain->websiteUrls->map(function ($websiteUrl) use ($site, $userAvailableSites, $authUser) {
