@@ -35,10 +35,10 @@ class WebsiteUrlController extends Controller
             $userAvailableSites = $userPackageDetails['sites'];
         }
 
-        $domainOwner = $authUser->isUser ? $authUser->team : $authUser;
+        $domainOwner = $authUser->isUser == true ? $authUser->team : $authUser;
 
         return response()->json([
-            'websiteUrls' => $authUser,
+            'websiteUrls' => $domainOwner,
             'sites' => Sites::cases(),
             'user' => $site
         ], Response::HTTP_OK);
