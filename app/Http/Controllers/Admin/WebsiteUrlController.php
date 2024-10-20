@@ -38,7 +38,7 @@ class WebsiteUrlController extends Controller
         $domainOwner = $authUser->isUser ? $authUser->team : $authUser;
 
         return response()->json([
-            'websiteUrls' => $domainOwner,
+            'websiteUrls' => $authUser,
             'sites' => Sites::cases(),
             'user' => $site
         ], Response::HTTP_OK);
