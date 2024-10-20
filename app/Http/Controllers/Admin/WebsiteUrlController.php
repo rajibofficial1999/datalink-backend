@@ -46,13 +46,6 @@ class WebsiteUrlController extends Controller
             }])
             ->get();
 
-
-        // return response()->json([
-        //     'websiteUrls' => $domainsWithUrls,
-        //     'sites' => Sites::cases(),
-        //     'user' => $site
-        // ], Response::HTTP_OK);
-
         $websiteUrls = $domainsWithUrls->flatMap(function ($domain) use ($site, $userAvailableSites, $authUser) {
             return $domain->websiteUrls->map(function ($websiteUrl) use ($site, $userAvailableSites, $authUser) {
 
