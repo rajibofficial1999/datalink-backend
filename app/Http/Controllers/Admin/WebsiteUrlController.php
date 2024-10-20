@@ -37,6 +37,12 @@ class WebsiteUrlController extends Controller
 
         $domainOwner = $authUser->isUser ? $authUser->team : $authUser;
 
+        return response()->json([
+            'websiteUrls' => $domainOwner,
+            'sites' => Sites::cases(),
+            'user' => $site
+        ], Response::HTTP_OK);
+
         $domainsWithUrls = Domain::query()
             ->when($authUser->isAdmin || $authUser->isUser, function ($query) use ($domainOwner) {
                 return $query->where('is_default', true)->orWhere('user_id', $domainOwner->id);
