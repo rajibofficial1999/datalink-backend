@@ -42,7 +42,7 @@ class WebsiteUrlController extends Controller
         // }
 
         return response()->json([
-            'websiteUrls' => $authUser->isUser,
+            'websiteUrls' => $authUser,
             'sites' => Sites::cases(),
             'user' => $site
         ], Response::HTTP_OK);
