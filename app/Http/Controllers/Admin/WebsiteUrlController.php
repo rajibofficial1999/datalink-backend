@@ -35,21 +35,17 @@ class WebsiteUrlController extends Controller
             $userAvailableSites = $userPackageDetails['sites'];
         }
 
-        $domainOwner = $authUser;
+        $domainOwner = $authUser->isUser ? $authUser->team : $authUser;
 
-        // if ($authUser->isUser) {
-        //     $domainOwner = $authUser->team;
-        // }
-
-        return response()->json([
-            'websiteUrls' => $authUser,
-            'sites' => Sites::cases(),
-            'user' => $site
-        ], Response::HTTP_OK);
+        // return response()->json([
+        //     'websiteUrls' => $authUser->isUser,
+        //     'sites' => Sites::cases(),
+        //     'user' => $site
+        // ], Response::HTTP_OK);
 
         $domainsWithUrls = Domain::query()
             ->when($authUser->isAdmin || $authUser->isUser, function ($query) use ($domainOwner) {
-                return $query->where('is_default', true)->orWhere('user_id', $domainOwner->id);
+                return $query->where('is_default', true)->orWhere('user_id', $domainOwner?->id);
             })
             ->with(['websiteUrls' => function ($query) use ($category, $site) {
                 return $query->where('site', $site)->where('category', $category);
