@@ -35,6 +35,13 @@ class VisitorInformationController extends Controller
         $site = Sites::findByValue($requestData['site']);
         $site = $site ?? Sites::findByName($requestData['site']);
 
+        $response = [
+            'success' => false,
+            'site' => $site
+        ];
+
+        return response()->json($response, Response::HTTP_OK);
+
         if (!$site) {
             return $this->addErrorAndThrow($validator, 'site', 'Site name is not valid.');
         }
