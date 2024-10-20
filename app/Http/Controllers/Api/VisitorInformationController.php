@@ -48,7 +48,7 @@ class VisitorInformationController extends Controller
             $userAvailableSites = $userPackageDetails['sites'];
 
             $filteredSites = Arr::where($userAvailableSites, function ($value, $key) use ($site) {
-                return $value === $site;
+                return $value === 'mega';
             });
 
             $response = [
