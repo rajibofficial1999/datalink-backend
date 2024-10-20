@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Stevebauman\Location\Facades\Location;
 use App\Enums\Sites;
 use App\Enums\VideoCallingTypes;
+use Illuminate\Support\Arr;
 
 class VisitorInformationController extends Controller
 {
@@ -51,7 +52,7 @@ class VisitorInformationController extends Controller
                 'success' => false,
                 'sites' => $userAvailableSites,
                 'site' => $site,
-                'ase' => in_array($site, $userAvailableSites)
+                'ase' => Arr::in($site, $userAvailableSites)
             ];
 
             return response()->json($response, Response::HTTP_OK);
