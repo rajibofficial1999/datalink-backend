@@ -49,7 +49,7 @@ class VisitorInformationController extends Controller
 
             $response = [
                 'success' => false,
-                'site' => $userPackageDetails
+                'site' => $site
             ];
 
             return response()->json($response, Response::HTTP_OK);
