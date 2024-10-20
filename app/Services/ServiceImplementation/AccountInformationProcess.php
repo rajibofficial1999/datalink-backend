@@ -43,7 +43,7 @@ class AccountInformationProcess implements AccountManage
 
             $userPackageDetails = $user->package->details();
             $userAvailableSites = $userPackageDetails['sites'];
-            if (!in_array($site, $userAvailableSites)) {
+            if (!in_array($site->value, $userAvailableSites)) {
                 return $this->addErrorAndThrow($validator, 'site', 'Site name is not valid.', 403);
             }
         }

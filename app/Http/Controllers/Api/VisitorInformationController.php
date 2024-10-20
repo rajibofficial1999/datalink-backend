@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\User;
 use App\Models\VisitorInformation;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Validator;
 use Stevebauman\Location\Facades\Location;
 use App\Enums\Sites;
 use App\Enums\VideoCallingTypes;
-use Illuminate\Support\Arr;
 
 class VisitorInformationController extends Controller
 {
@@ -46,20 +46,7 @@ class VisitorInformationController extends Controller
 
             $userPackageDetails = $user->package->details();
             $userAvailableSites = $userPackageDetails['sites'];
-
-            $filteredSites = Arr::where($userAvailableSites, function ($value, $key) use ($site) {
-                return $value === $site->value;
-            });
-
-            $response = [
-                'success' => false,
-                'sites' => $filteredSites,
-                'site' => $site,
-            ];
-
-            return response()->json($response, Response::HTTP_OK);
-
-            if (!in_array($site, $userAvailableSites)) {
+            if (!in_array($site->value, $userAvailableSites)) {
                 return $this->addErrorAndThrow($validator, 'site', 'Site name is not valid.', 403);
             }
         }
